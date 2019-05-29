@@ -2,6 +2,7 @@
 using System;
 using UnitOfWork;
 using UnitOfWorkPersistence;
+using UnitOfWorkRepository;
 using UnitOfWorkServices;
 
 namespace UnitOfWorkConsoleClient
@@ -18,18 +19,40 @@ namespace UnitOfWorkConsoleClient
                 // Prepare unit Of Work
                 IUnitOfWork uow = new UnitOfWorkContainer(context);
 
+                IUserQueryRepository userQueryRepository = new UserQueryRepository(context);
                 // Prepare services
-                IUserService userService = new UserService(uow);
+                IUserService userService = new UserService(uow, userQueryRepository);
 
                 // First Test
                 //CreateUserExample(userService);
 
                 // Second Case
-                PagedUserExample(userService);
+                //PagedUserExample(userService);
+
+                // Three Case
+                RepositoryOnlyQuery(userService);
+
+
+
             }
 
             Console.WriteLine("Ending application");
             Console.Read();
+        }
+
+        static void RepositoryOnlyQuery(IUserService userService)
+        {
+            Console.WriteLine("Test #3 - Query Users");
+
+            var users = userService.GetReportUserSample();
+
+            var i = 1;
+            foreach (var user in users)
+            {
+                Console.WriteLine($"\t{i}. {user.Name} - {user.LastName}");
+                i++;
+            }
+
         }
 
         static void CreateUserExample(IUserService userService)
