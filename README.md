@@ -1,4 +1,4 @@
-# Unit Of Work, Services y Repository Pattern usando Net Core 2.0
+# Unit Of Work, Services y Repository Pattern usando Net Core 2.2
 En el siguiente repositorio usted encontrará un ejemplo de dichos patrones sobre una arquitectura que vengo usando en proyectos reales.
 
 ### ¿Cómo levantar el proyecto?
