@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnitOfWork;
+using UnitOfWorkRepository;
+using UnitOfWorkRepository.Projections;
 using UnitOfWorkRepository.Repository;
 
 namespace UnitOfWorkServices
@@ -11,17 +13,21 @@ namespace UnitOfWorkServices
         IEnumerable<UserExample> GetAll();
         void Create(UserExample model);
         DataCollection<UserExample> Paged(int page, int take);
+        IEnumerable<UserReportAggregate> GetReportUserSample();
     }
 
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _uow;
+        private readonly IUserQueryRepository _userQueryRepository;
 
         public UserService(
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            IUserQueryRepository userQueryRepository
         )
         {
             _uow = unitOfWork;
+            _userQueryRepository = userQueryRepository;
         }
 
         public void Create(UserExample model)
@@ -46,5 +52,11 @@ namespace UnitOfWorkServices
                 orderBy: x => x.OrderByDescending(y => y.Id)
             );
         }
+
+        public IEnumerable<UserReportAggregate> GetReportUserSample()
+        {
+            return _userQueryRepository.GetReportUserSample();
+        }
+
     }
 }
